@@ -50,7 +50,9 @@ IPU attribution, licence, retrieval time, and terms URL.
 
 - `latestElection` is distinct from current chamber composition.
 - Full renewals use the reported result as the post-election composition.
-- Partial renewals use IPU's explicit “Full composition” breakdown when present.
+- Partial renewals use IPU's explicit “Full composition” breakdown when present,
+  including IPU's standardized election-note list when its seat total matches the
+  chamber size exactly.
 - A partial renewal without that breakdown is marked `contested-seats-only` and
   never expanded from previous results.
 - `nextExpectedElections` may contain one entry per national parliamentary

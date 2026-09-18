@@ -23,9 +23,9 @@ pilot ISO identity
   -> public country JSON + hash-backed manifest
 ```
 
-The configuration supplies only canonical identity joins. It does not select country-specific transformations or editorial prose. IPU party and person identifiers are resolved through the API, and taxonomy values are resolved through IPU metadata with a deterministic fallback label.
+The configuration supplies only canonical identity joins. It does not select country-specific transformations or editorial prose. IPU party and person identifiers are resolved through the API when supplied, note-only composition labels receive deterministic election-scoped identifiers, and taxonomy values are resolved through IPU metadata with a deterministic fallback label.
 
-Parliamentary election results are not treated as current composition. A chamber's `latestElection` preserves seats at stake and scope. For a partial renewal, the normalizer publishes `postElectionComposition` only when IPU explicitly supplies a full-composition breakdown; otherwise it publishes `seatsWonInElection` as `contested-seats-only`. It never reconstructs a whole chamber from prior elections.
+Parliamentary election results are not treated as current composition. A chamber's `latestElection` preserves seats at stake and scope. For a partial renewal, the normalizer publishes `postElectionComposition` only when IPU explicitly supplies a full-composition breakdown, either as structured data or as its standardized election-note list. A note-derived list is accepted only when its seat total exactly matches the chamber size. Otherwise the normalizer publishes `seatsWonInElection` as `contested-seats-only`. It never reconstructs a whole chamber from prior elections.
 
 `nextExpectedElections` is a collection because bicameral systems and separate renewal cycles can yield multiple entries. The IPU adapter emits only national parliamentary events. It does not infer local or subnational elections.
 

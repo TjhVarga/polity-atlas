@@ -106,6 +106,56 @@ function normalizeFullComposition(election, parties) {
   );
 }
 
+function notePartyId(electionId, party, index) {
+  const slug = party
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  return `${electionId.toLowerCase()}-note-${slug || index + 1}`;
+}
+
+function normalizeFullCompositionNote(election, chamberSize) {
+  const note = english(election.attributes?.elected_note?.value);
+  if (!note) return undefined;
+
+  const lines = note.split(/\r?\n/);
+  const headingIndex = lines.findIndex((line) =>
+    /\bfull composition\b/i.test(line),
+  );
+  if (headingIndex === -1) return undefined;
+
+  const composition = [];
+  for (const line of lines.slice(headingIndex + 1)) {
+    if (!line.trim()) continue;
+
+    const match = line.match(/^\s*[-*\u2022]\s+(.+?)\s*:\s*(\d+)\s*$/);
+    if (!match) {
+      if (composition.length) break;
+      continue;
+    }
+
+    const party = match[1].trim();
+    composition.push({
+      partyId: notePartyId(election.id, party, composition.length),
+      party,
+      seats: Number(match[2]),
+    });
+  }
+
+  const reportedSeats = composition.reduce(
+    (sum, result) => sum + result.seats,
+    0,
+  );
+  if (!composition.length || reportedSeats !== chamberSize) return undefined;
+
+  return composition.sort(
+    (left, right) =>
+      right.seats - left.seats || left.party.localeCompare(right.party),
+  );
+}
+
 function electionScope(election, chamberSize) {
   const sourceTerm = election.attributes?.scope_of_elections?.value?.term;
   if (sourceTerm === 'full_renewal') return 'full-renewal';
@@ -132,7 +182,9 @@ function normalizeLatestElection(elections, statutoryChamberSize, parties) {
   const seatsAtStake =
     latest.attributes?.number_of_seats_at_stake?.value || undefined;
   const seatsWonInElection = normalizePartyResults(latest, parties);
-  let postElectionComposition = normalizeFullComposition(latest, parties);
+  let postElectionComposition =
+    normalizeFullComposition(latest, parties) ??
+    normalizeFullCompositionNote(latest, statutoryChamberSize);
 
   if (scope === 'full-renewal' && seatsWonInElection.length) {
     postElectionComposition ??= seatsWonInElection;

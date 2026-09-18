@@ -73,7 +73,7 @@ describe('CountryPanel', () => {
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('shows a full-election outcome and labels partial contested-seat results explicitly', async () => {
+  it('shows full post-election compositions for Australian chambers', async () => {
     useWorkspaceStore.setState({ activeTab: 'parliament' });
 
     renderPanel();
@@ -96,12 +96,20 @@ describe('CountryPanel', () => {
 
     expect(screen.getByText('40 of 76 seats contested')).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'These figures cover only the seats decided in this election or renewal. They must not be read as the full or current chamber composition.',
+      screen.getAllByText(
+        'This is the full chamber immediately after the latest election or renewal reported by IPU. It is not necessarily the current composition.',
+      ).length,
+    ).toBeGreaterThan(0);
+    const senateSemicircle = await screen.findByLabelText(
+      'Senate post-election composition semicircle',
+    );
+    expect(
+      senateSemicircle.querySelector(
+        '[data-party-segment="au-uc01-e20250503-note-australian-labor-party-government"]',
       ),
     ).toBeInTheDocument();
     expect(
-      await screen.findByLabelText('Senate contested-seat result semicircle'),
+      screen.getByText('Seats decided in this renewal'),
     ).toBeInTheDocument();
     expect(screen.getByText('Milton Dick')).toBeInTheDocument();
     expect(screen.getByText(/Alternative Vote \(AV\)/)).toBeInTheDocument();

@@ -204,7 +204,7 @@
           "seatsAtStake": 40,
           "chamberSize": 76,
           "outcome": {
-            "display": "contested-seats-only",
+            "display": "post-election-full-composition",
             "seatsWonInElection": [
               {
                 "partyId": "au-australian_labor_party_alp",
@@ -249,6 +249,48 @@
               {
                 "partyId": "au-jacqui_lambie_network",
                 "party": "Jacqui Lambie Network",
+                "seats": 1
+              }
+            ],
+            "postElectionComposition": [
+              {
+                "partyId": "au-uc01-e20250503-note-australian-labor-party-government",
+                "party": "Australian Labor Party (government)",
+                "seats": 29
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-coalition-opposition",
+                "party": "Coalition (opposition)",
+                "seats": 27
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-australian-greens",
+                "party": "Australian Greens",
+                "seats": 10
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-pauline-hanson-s-one-nation",
+                "party": "Pauline Hanson's One Nation",
+                "seats": 4
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-independent",
+                "party": "Independent",
+                "seats": 3
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-australia-s-voice",
+                "party": "Australia's Voice",
+                "seats": 1
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-jacqui-lambie-network",
+                "party": "Jacqui Lambie Network",
+                "seats": 1
+              },
+              {
+                "partyId": "au-uc01-e20250503-note-united-australia-party",
+                "party": "United Australia Party",
                 "seats": 1
               }
             ]
